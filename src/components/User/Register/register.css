@@ -1,0 +1,21 @@
+.register-box{
+    width: 40%;
+    position: absolute;
+    padding: 20px;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%,-50%,0);
+    border-radius: 20px;
+    background-color: white;
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 0 30px #f0f0f0;
+}
+
+.register-box label{
+    width: 100px;
+    text-align: right;
+}
+
+.register-box button{
+    width: 100%;
+}

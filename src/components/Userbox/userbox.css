@@ -1,0 +1,56 @@
+.user-box{
+    width: 18vw;
+    margin: 20px auto;
+    /* height: 30vh; */
+    /* margin: 20px; */
+    /* margin-top: 20px;
+    margin-left: 50px; */
+    padding-top: 20px;
+    color: #69606b;
+    text-align: center;
+    border-radius: 30px;
+    background-color: white;
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 0 30px #f0f0f0;
+}
+
+.user-avatar img{
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 0 30px #f0f0f0;
+}
+
+.user-tag-box{
+    width: 80%;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.tag{
+    display: inline-block;
+    font-size: 12px;
+    margin: 3px;
+    padding: 2px 4px;
+    /* color: #69606b; */
+    color: black;
+    /* font-weight: bold; */
+    border-radius: 5px;
+    background-color: #fddb3a;
+}
+
+.tag-add-btn{
+    padding: 2px 5px;
+    cursor: pointer;
+}
+
+.user-btn{
+    width: 80%;
+    height: 40px;
+    margin: 0 auto;
+    border-radius: 10px;
+    background-color: #fddb3a;
+}
