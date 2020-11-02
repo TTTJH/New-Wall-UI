@@ -79,26 +79,7 @@ class Textarea extends Component{
         console.log(fileList)
     };
 
-    submit = () => {
-        let data = {
-            cardCircleId:5,
-            context:this.state.content,
-            imgsArray:this.state.img ? [this.state.img] : []
-        }
-        SetCardAjax(data,Cookies.get("token").token)
-            .then(val => {
-                if(val.data.code == 200){
-                    message.success("发布成功🤗")
-                    this.setState({
-                        content:""
-                    })
-                    this.props.mainGetCard()
-                }
-            })
-            .catch(err => {
-                message.error("发布失败，请重试😐")
-            })
-    }
+
     handleUpload = (file) => {
         let fileName = file.name.slice(0,file.name.lastIndexOf("."))
         let type = file.name.slice(file.name.lastIndexOf(".")+1,file.name.length)
@@ -113,28 +94,7 @@ class Textarea extends Component{
             content:e.target.value
         })
     }
-    myUploadChange = (e) => {
-        console.log(e.target.value)
-        let fileStr = e.target.value.slice(e.target.value.lastIndexOf("\\")+1,e.target.value.length)
-        console.log(fileStr)
-        let cutIndex = fileStr.lastIndexOf(".")
-        let fileName = fileStr.slice(0,cutIndex)
-        let type = fileStr.slice(cutIndex+1,fileStr.length)
-        console.log(fileName,type)
-        OssImgAjax(fileName,type,Cookies.get("token").token)
-        .then(val => {
-            let {URL} = val.data.data
-            this.setState({URL})
-        })
-        .catch(err => {
-        console.log(err)
-        })
-    }
-    // myFormSubmit = () => {
-    //     if(this.state.url){
 
-    //     }
-    // }
     render() {
         const { previewVisible, previewImage, fileList, previewTitle } = this.state;
         const uploadButton = (
@@ -151,24 +111,13 @@ class Textarea extends Component{
                 </form> */}
             <>
                 <Upload
-                // headers={
-                //     {
-                //     "Content-Type":'image/jpeg',
-                //     "x-oss-meta-author":"ekij",
-                //     }
-                // }
                 ref="upload"
                 name="file"
                 method="post"
                 className="textarea-box-upload-btn"
-                action={`http://192.168.43.52:8080/ekij/oss/upload/${this.state.fileName}/${this.state.type}`}
                 // action={this.handleAction}
                 listType="picture-card"
                 fileList={fileList}
-                beforeUpload={this.handleUpload}
-                onPreview={this.handlePreview}
-                onChange={this.handleChange}
-                
                 >
                 {fileList.length >= 1 ? null : uploadButton}
                 </Upload>

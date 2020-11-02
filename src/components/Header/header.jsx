@@ -12,9 +12,9 @@ const Header = () => {
                     <span>ZZULI-WALL</span>
                     </div>
                     <ul className="main-header-item">
-                           {/* <li>item1</li>
+                           <li>item1</li>
                            <li>item2</li>
-                           <li>item3</li>  */}
+                           <li>item3</li> 
                     </ul>
             </div>
         </div>

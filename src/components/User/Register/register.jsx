@@ -10,10 +10,6 @@ import {
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import Cookies from 'js-cookie'
 
-import {
-  RegisterAjax
-} from '../../../api/index'
-
 import './register.css'
 
 const RegistrationForm = () => {
@@ -22,27 +18,6 @@ const RegistrationForm = () => {
   const [form] = Form.useForm();
 
   const onFinish = values => {
-    //提交注册信息
-    RegisterAjax(values)
-    .then(function(val){
-      let {code} = val.data
-      if(code == 100){
-        //手机号重复
-        message.error("该手机号已经被注册")
-      }else if(code == 200){
-        let {token} = val.data.data
-        //保存token至cookie中
-        Cookies.set("token",token,{expires:1})
-        //自动登入(获取token就已经登入)并跳转至 根路由
-        message.success("注册成功！已自动登入🤓")
-        history.push("/")
-      }else{
-        message.error("出错!")
-      }
-    })
-    .catch(err => {
-      console.log(err)
-    })
   };
 
   return (

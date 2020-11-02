@@ -1,12 +1,11 @@
 /* 重写antd */
-.card ul{
+/* .card ul{
     position: absolute;
     width: 100%;
     bottom: 0;
-}
+} */
 /* 重写antd */
 .card .ant-card-meta{
-    /* margin-bottom: 50px; */
 }
 
 .card{

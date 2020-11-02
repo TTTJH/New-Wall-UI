@@ -1,22 +1,12 @@
 import React,{Component} from 'react'
 import Cookies from 'js-cookie'
 import { Form, Input, Button } from 'antd';
-
-import {
-    LoginAjax,
-} from '../../../api/index'
-import {
-    changeUserInfo,
-} from '../../../redux/action'
-import store from '../../../redux/store'
-
 import './login.css'
 
 class Login extends Component{
 constructor(props){
     super(props)
-    this.state=store.getState();
-    store.subscribe(this.storeChange) //订阅Redux的状态
+
 }
     layout = {
         labelCol: { span: 8 },
@@ -25,26 +15,9 @@ constructor(props){
     tailLayout = {
         wrapperCol: { offset: 8, span: 16 },
     };
-    storeChange = () => {
-        this.setState(store.getState())
-    }
+
     onFinish = values => {
-        //执行登入ajax
-        LoginAjax(values)
-            .then(val => {
-                let {token} = val.data.data
-                //保存token至cookie中
-                Cookies.set("token",token,{expires:1})
-                console.log(val)
-                // dispatch()
-                let action = changeUserInfo(val.data.data.user)
-                store.dispatch(action)
-                //跳转根路由
-                this.props.history.push("/")
-            })  
-            .catch(err => {
-                console.log(err)
-            })
+
     };
 
     onFinishFailed = errorInfo => {

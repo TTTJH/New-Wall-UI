@@ -19,19 +19,19 @@ class Mycard extends Component{
             cover={
               <img
                 alt="example"
-                src={this.props.cardImgsArray ? this.props.cardImgsArray[0] : "http://www.tttjh.com.cn/imgs/aaa.png"}
-                // src="http://www.tttjh.com.cn/imgs/aaa.png"
+                // src={this.props.cardImgsArray ? this.props.cardImgsArray[0] : "http://www.tttjh.com.cn/imgs/aaa.png"}
+                src="http://www.tttjh.com.cn/imgs/aaa.png"
               />
             }
             actions={[
-            <sapn><LikeOutlined onClick={() => this.props.like(this.props.cardId)} key="likes"/>&nbsp;&nbsp;{this.props.likeCount}</sapn>,
-            <span><MessageOutlined key="comments" />&nbsp;&nbsp;{this.props.commentCount}</span>,
+            <sapn><LikeOutlined  key="likes"/>&nbsp;&nbsp;</sapn>,
+            <span><MessageOutlined key="comments" />&nbsp;&nbsp;</span>,
             ]}
           >
             <Meta
-              avatar={<Avatar src={this.props.user.avater} />}
-              title={this.props.user.nickname}
-              description={this.props.cardContext}
+              avatar={<Avatar src="http://www.tttjh.com.cn/imgs/girl.gif" />}
+              title="标题"
+              description="描述"
             />
           </Card>
         )
