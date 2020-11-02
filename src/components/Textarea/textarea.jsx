@@ -5,9 +5,13 @@ import {
         Upload,
         Modal,
         Button,
+        message,
+
        } from 'antd';
 import {
     OssImgAjax,
+    SetCardAjax,
+    GetCardAjax
 } from '../../api/index'
 import { PlusOutlined } from '@ant-design/icons';
 import './textarea.css'
@@ -30,7 +34,9 @@ class Textarea extends Component{
         fileList: [],
         fileName:"",
         type:"",
-        uploadUrl:""
+        uploadUrl:"",
+        img:"",
+        url:""
       };
     handleCancel = () => this.setState({ previewVisible: false });
 
@@ -45,40 +51,22 @@ class Textarea extends Component{
         previewTitle: file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
         });
     };
-     handleUpload = (file,fileList) => {
-        // let lastIndex = fileList.length - 1
-        // let cutIndex = fileList[lastIndex].name.lastIndexOf(".")
-        // let fileName = fileList[lastIndex].name.slice(0,cutIndex)
-        // let type = fileList[lastIndex].name.slice(cutIndex+1,fileList[lastIndex].name.length)
-        // OssImgAjax(fileName,type,Cookies.get("token").token)
-        //     .then(val => {
-        //         let {url} = val.data.data
-        //         this.setState({uploadUrl:url})
-        //     })
-        //     .catch(err => {
-        //         console.log(err)
-        // })
-    }
     componentDidMount(){
-        OssImgAjax("test","png",Cookies.get("token").token)
-        .then(val => {
-            let {url} = val.data.data
-            console.log(val)
-        })
-        .catch(err => {
-        console.log(err)
-        })
+        console.log(":)")
     }
     handleAction = (file) => {
         let cutIndex = file.name.lastIndexOf(".")
         let fileName = file.name.slice(0,cutIndex)
         let type = file.name.slice(cutIndex+1,file.name.length)
+        this.setState({
+            img:fileName+"."+type
+        })
         return new Promise((resolve,reject) => {
             OssImgAjax(fileName,type,Cookies.get("token").token)
             .then(val => {
                 let {URL} = val.data.data
                 console.log(URL)
-                resolve("https://ekij.oss-cn-beijing.aliyuncs.com/o.jpg?Expires=1603978391&OSSAccessKeyId=STS.NV6yK6AwaaLaiv4UC6yTGSYp1&Signature=OlO7IGdi5L8vFIZWgrsmNXbLqME%3D&security-token=CAISlAJ1q6Ft5B2yfSjIr5WDMvGCrKhA1o6Ka1CFsUNjddtrvJzb0zz2IH5Ff3VtCesbt%2F0znGtX7%2Fkclq1oVo1UHaBz4wfPqMY5yxioRqackdPXhOV2kv%2FIMGyXDAGBg622Su7lTdTbV%2B6wYlTf7EFayqf7cjPQKD7FNoaS26Z6cpZ1Pw6jdmh%2BA8xKZGkCr9QBZ1TcKbTXanyMuGfLC1dysQdRkH527b%2FFoveR8R3Dllb3uJN33Y36OcqjdNI%2BfsU9Adq23e4xNIi5iXYIs0AXr%2Fko0%2FMaqG6e4OvwWQcBv0%2B0VMPP6cBqIQNDYaw3JrVJtvCUl4cj5L2Iy9mnkEsUZL0NCHuGG966rNDZCvK5wmivgWwisB0agAGIAMe99MYh%2FSWgTok2VzAVmepb5aehwxr0ThpvQMqv6Qc7PIdn5rGP2KW8%2F6jAos%2BsYABGlGkEAkEbdu4rdJ%2Fww%2B1Ck0j3WsK21gjGdNGqR7ElhUTnr6Ae8ycUs8Tu5bh0iFvttt59cc%2FBAPyRYdoj%2BUPBFMG%2BxgwXQtQG4IdCtw%3D%3D")
+                resolve(URL)
             })
             .catch(err => {
             console.log(err)
@@ -88,21 +76,65 @@ class Textarea extends Component{
     }
     handleChange = ({ fileList }) => {
         this.setState({ fileList })
-        // let lastIndex = fileList.length - 1
-        // if(fileList[lastIndex].status == "done"){
-        //     let cutIndex = fileList[lastIndex].name.lastIndexOf(".")
-        //     let fileName = fileList[lastIndex].name.slice(0,cutIndex)
-        //     let type = fileList[lastIndex].name.slice(cutIndex+1,fileList[lastIndex].name.length)
-        // OssImgAjax(fileName,type,Cookies.get("token").token)
-        //     .then(val => {
-        //         console.log(val)
-        //     })
-        //     .catch(err => {
-        //         console.log(err)
-        //     })
-        // }
+        console.log(fileList)
     };
 
+    submit = () => {
+        let data = {
+            cardCircleId:5,
+            context:this.state.content,
+            imgsArray:this.state.img ? [this.state.img] : []
+        }
+        SetCardAjax(data,Cookies.get("token").token)
+            .then(val => {
+                if(val.data.code == 200){
+                    message.success("发布成功🤗")
+                    this.setState({
+                        content:""
+                    })
+                    this.props.mainGetCard()
+                }
+            })
+            .catch(err => {
+                message.error("发布失败，请重试😐")
+            })
+    }
+    handleUpload = (file) => {
+        let fileName = file.name.slice(0,file.name.lastIndexOf("."))
+        let type = file.name.slice(file.name.lastIndexOf(".")+1,file.name.length)
+        this.setState({
+            fileName,
+            type,
+            img:fileName+"."+type
+        })
+    }
+    textareaChange = (e) => {
+        this.setState({
+            content:e.target.value
+        })
+    }
+    myUploadChange = (e) => {
+        console.log(e.target.value)
+        let fileStr = e.target.value.slice(e.target.value.lastIndexOf("\\")+1,e.target.value.length)
+        console.log(fileStr)
+        let cutIndex = fileStr.lastIndexOf(".")
+        let fileName = fileStr.slice(0,cutIndex)
+        let type = fileStr.slice(cutIndex+1,fileStr.length)
+        console.log(fileName,type)
+        OssImgAjax(fileName,type,Cookies.get("token").token)
+        .then(val => {
+            let {URL} = val.data.data
+            this.setState({URL})
+        })
+        .catch(err => {
+        console.log(err)
+        })
+    }
+    // myFormSubmit = () => {
+    //     if(this.state.url){
+
+    //     }
+    // }
     render() {
         const { previewVisible, previewImage, fileList, previewTitle } = this.state;
         const uploadButton = (
@@ -113,23 +145,32 @@ class Textarea extends Component{
             );
         return (
             <div className="textarea-box">
+                {/* <form action={this.state.url} method="put">
+                    <input type="file" onChange={this.myUploadChange}/>
+                    <input onClick={this.myFormSubmit} value="submit"/>
+                </form> */}
             <>
                 <Upload
-                headers={
-                    {"x-oss-meta-author":"ekij",
-                    "Content-Type":'application/octet-stream'
-                    }
-                }
-                method="put"
+                // headers={
+                //     {
+                //     "Content-Type":'image/jpeg',
+                //     "x-oss-meta-author":"ekij",
+                //     }
+                // }
+                ref="upload"
+                name="file"
+                method="post"
                 className="textarea-box-upload-btn"
-                action={this.handleAction}
+                action={`http://192.168.43.52:8080/ekij/oss/upload/${this.state.fileName}/${this.state.type}`}
+                // action={this.handleAction}
                 listType="picture-card"
                 fileList={fileList}
                 beforeUpload={this.handleUpload}
                 onPreview={this.handlePreview}
                 onChange={this.handleChange}
+                
                 >
-                {fileList.length >= 8 ? null : uploadButton}
+                {fileList.length >= 1 ? null : uploadButton}
                 </Upload>
                 <Modal
                 visible={previewVisible}
@@ -140,9 +181,8 @@ class Textarea extends Component{
                 <img alt="example" style={{ width: '100%' }} src={previewImage} />
                 </Modal>
             </>
-            <TextArea className="textarea" rows={4} placeholder="在此输入内容发布你的卡片吧😝"/>
-
-            <Button className="textarea-box-btn" type="primary">发布🚀</Button>
+            <TextArea value={this.state.content} ref="textarea" onChange={this.textareaChange}  className="textarea" rows={4} placeholder="在此输入内容发布你的卡片吧😝"/>
+            <Button onClick={this.submit} className="textarea-box-btn" type="primary">发布🚀</Button>
             </div>
         )
     }

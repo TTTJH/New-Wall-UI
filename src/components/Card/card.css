@@ -6,7 +6,7 @@
 }
 /* 重写antd */
 .card .ant-card-meta{
-    margin-bottom: 50px;
+    /* margin-bottom: 50px; */
 }
 
 .card{

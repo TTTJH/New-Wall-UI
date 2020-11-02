@@ -38,13 +38,13 @@ class Sidemenu extends Component{
           inlineCollapsed={this.state.collapsed}
         >
           <Menu.Item key="1" icon={<PieChartOutlined />} >
-            Option 1
+          <Link to="/">主页</Link>
           </Menu.Item>
           <Menu.Item key="2" icon={<DesktopOutlined />}>
-            Option 2
+            <Link to="/login">登入</Link>
           </Menu.Item>
           <Menu.Item key="3" icon={<ContainerOutlined />}>
-            Option 3
+          <Link to="/register">注册</Link>
           </Menu.Item>
           {/* <SubMenu key="sub1" icon={<MailOutlined />} title="Navigation One">
             <Menu.Item key="5">Option 5</Menu.Item>

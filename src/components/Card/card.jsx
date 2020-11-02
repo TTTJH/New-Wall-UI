@@ -1,33 +1,37 @@
 import React,{Component} from 'react'
 import { Card, Avatar } from 'antd';
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
+import { EditOutlined, MessageOutlined, LikeOutlined } from '@ant-design/icons';
 import "./card.css"
 
 const { Meta } = Card;
 
 
 class Mycard extends Component{
+    componentDidMount(){
+      // console.log(this.props)
+    }
     render() {
         return (
             <Card
+            
             className="card"
             style={{ borderRadius:"10px",margin:"10px" }}
             cover={
               <img
                 alt="example"
-                src="http://www.tttjh.com.cn/imgs/mandao.png"
+                src={this.props.cardImgsArray ? this.props.cardImgsArray[0] : "http://www.tttjh.com.cn/imgs/aaa.png"}
+                // src="http://www.tttjh.com.cn/imgs/aaa.png"
               />
             }
             actions={[
-              <SettingOutlined key="setting" />,
-              <EditOutlined key="edit" />,
-              <EllipsisOutlined key="ellipsis" />,
+            <sapn><LikeOutlined onClick={() => this.props.like(this.props.cardId)} key="likes"/>&nbsp;&nbsp;{this.props.likeCount}</sapn>,
+            <span><MessageOutlined key="comments" />&nbsp;&nbsp;{this.props.commentCount}</span>,
             ]}
           >
             <Meta
-              avatar={<Avatar src="http://www.tttjh.com.cn/imgs/girl.gif" />}
-              title="Card title"
-              description="这是曼达洛人，星球大战的外传剧集，已经准备出第二季了，非常期待😋"
+              avatar={<Avatar src={this.props.user.avater} />}
+              title={this.props.user.nickname}
+              description={this.props.cardContext}
             />
           </Card>
         )
