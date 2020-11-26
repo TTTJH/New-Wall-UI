@@ -1,2 +1,2 @@
 New Wall UI
-![des des](https://www.tttjh.com.cn/imgs/wallui.jpg)
+![des des](http://www.tttjh.com.cn/imgs/wallui.jpg)
